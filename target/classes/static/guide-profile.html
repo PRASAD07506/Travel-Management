@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guide Profile - Wanderlust</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        body { background: #f8f9fa; }
+        .profile-header {
+            background: linear-gradient(135deg, var(--dark), #1a1a2e);
+            color: white;
+            padding: 8rem 2rem 4rem;
+            text-align: center;
+            position: relative;
+        }
+        .profile-img-large {
+            width: 150px; height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid var(--primary);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            margin-top: -120px;
+            background: #fff;
+        }
+        .stats-bar {
+            display: flex; justify-content: center; gap: 3rem; margin-top: 2rem;
+        }
+        .stat {
+            text-align: center;
+        }
+        .stat h3 { font-size: 1.8rem; margin: 0; color: var(--primary); }
+        .stat p { font-size: 0.9rem; color: #aaa; margin: 0; }
+        
+        .content-container {
+            max-width: 1000px; margin: 0 auto; padding: 3rem 2rem;
+            display: grid; grid-template-columns: 2fr 1fr; gap: 2rem;
+        }
+        
+        .about-section, .reviews-section {
+            background: white; padding: 2rem; border-radius: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05); margin-bottom: 2rem;
+        }
+        
+        .action-card {
+            background: white; padding: 2rem; border-radius: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05); text-align: center;
+            position: sticky; top: 100px;
+        }
+        
+        .back-btn {
+            position: absolute; top: 2rem; left: 2rem;
+            color: white; text-decoration: none; font-size: 1.1rem;
+        }
+        .back-btn:hover { color: var(--primary); }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <div class="profile-header">
+        <a href="index.html" class="back-btn"><i class="fa-solid fa-arrow-left"></i> Back to Explore</a>
+        <h1 style="margin-bottom: 0.5rem; font-family: var(--font-heading);">Local Guide Profile</h1>
+        <p style="color: #ccc;">Experience the world through local eyes.</p>
+    </div>
+
+    <!-- Main Content -->
+    <div style="text-align: center;">
+        <img src="images/male_guide_3.png" class="profile-img-large" alt="Guide Profile" id="guide-hero-img">
+        <h2 style="margin-top: 1rem; font-size: 2rem; color: var(--dark);" id="guide-name">Rajesh Kumar</h2>
+        <p style="color: var(--primary); font-weight: 600; margin-bottom: 1rem;" id="guide-specialty">History & Culture Specialist</p>
+        
+        <div class="stats-bar">
+            <div class="stat"><h3>4.9</h3><p>Rating</p></div>
+            <div class="stat"><h3>150+</h3><p>Trips Led</p></div>
+            <div class="stat"><h3>4</h3><p>Languages</p></div>
+        </div>
+    </div>
+
+    <div class="content-container">
+        <div class="left-col">
+            <div class="about-section">
+                <h3 style="margin-bottom: 1rem;"><i class="fa-solid fa-address-card" style="color: var(--primary);"></i> About Me</h3>
+                <p style="color: var(--dark-muted); line-height: 1.8;">
+                    Hello! I'm a passionate local guide with over 8 years of experience showcasing the hidden gems, rich history, and vibrant culture of this region. I believe that travel is about connecting with people and places on a deeper level. Whether you want an adventurous trek, a deep dive into local heritage, or just the best street food spots, I've got you covered!
+                </p>
+                <div style="margin-top: 1.5rem; display: flex; gap: 1rem; flex-wrap: wrap;">
+                    <span style="background: #F0F4F8; padding: 0.5rem 1rem; border-radius: 50px; font-size: 0.85rem;"><i class="fa-solid fa-language"></i> English, Hindi, French, Local Dialect</span>
+                    <span style="background: #FFF3E0; color: #E65100; padding: 0.5rem 1rem; border-radius: 50px; font-size: 0.85rem;"><i class="fa-solid fa-shield-halved"></i> Verified Professional</span>
+                </div>
+            </div>
+
+            <div class="reviews-section">
+                <h3 style="margin-bottom: 1.5rem;"><i class="fa-solid fa-comments" style="color: var(--primary);"></i> Recent Reviews</h3>
+                <div style="border-bottom: 1px solid #eee; padding-bottom: 1rem; margin-bottom: 1rem;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                        <strong>Sarah Jenkins</strong>
+                        <span style="color: gold;"><i class="fa-solid fa-star"></i> 5.0</span>
+                    </div>
+                    <p style="font-size: 0.9rem; color: var(--dark-muted); margin: 0;">"Absolutely incredible experience! Showed us spots we never would have found on our own. Highly recommend."</p>
+                </div>
+                <div>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                        <strong>David Chen</strong>
+                        <span style="color: gold;"><i class="fa-solid fa-star"></i> 4.8</span>
+                    </div>
+                    <p style="font-size: 0.9rem; color: var(--dark-muted); margin: 0;">"Very knowledgeable about local history and extremely accommodating to our family's schedule."</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="right-col">
+            <div class="action-card">
+                <h3 style="font-size: 1.8rem; margin-bottom: 0.5rem;">Hire Me</h3>
+                <p style="color: var(--dark-muted); margin-bottom: 1.5rem;">Let's make your trip unforgettable.</p>
+                <div style="font-size: 2rem; font-weight: 800; color: var(--primary); margin-bottom: 1.5rem;">$50<span style="font-size: 1rem; color: #aaa;"> / day</span></div>
+                
+                <div style="text-align: left; margin-bottom: 1.5rem;">
+                    <label style="font-size: 0.9rem; font-weight: 600;">Select Date:</label>
+                    <input type="date" style="width: 100%; padding: 0.8rem; border: 1px solid #ddd; border-radius: 8px; margin-top: 0.5rem; outline: none;">
+                </div>
+                
+                <button class="btn btn-primary" style="width: 100%; padding: 1rem; font-size: 1.1rem; border-radius: 8px;" onclick="alert('Booking request sent!')">Request Booking</button>
+                <p style="font-size: 0.8rem; color: #aaa; margin-top: 1rem;">Free cancellation up to 24 hours before.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script to set dynamic guide info based on URL params (optional enhancement) -->
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const guideName = urlParams.get('name');
+        const guideImg = urlParams.get('img');
+        const guidePrice = urlParams.get('price');
+
+        if (guideName) document.getElementById('guide-name').innerText = guideName;
+        if (guideImg) document.getElementById('guide-hero-img').src = guideImg;
+        if (guidePrice) document.querySelector('.action-card div').innerHTML = `$${guidePrice}<span style="font-size: 1rem; color: #aaa;"> / day</span>`;
+    </script>
+</body>
+</html>

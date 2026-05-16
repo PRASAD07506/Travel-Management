@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wanderlust - Luxury Travel & Smart Tourism</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar glass">
+        <div class="logo">
+            <h2>Wanderlust.</h2>
+        </div>
+        <ul class="nav-links">
+            <li><a href="#destinations" class="active">Destinations</a></li>
+            <li><a href="#hotels">Stays</a></li>
+            <li><a href="#transport">Transport</a></li>
+            <li><a href="#guides">Local Guides</a></li>
+        </ul>
+        <div class="nav-actions" id="nav-actions-container">
+            <button class="btn btn-outline" id="btn-login" onclick="openAuthModal('login')">Log In</button>
+            <button class="btn btn-primary" id="btn-signup" onclick="openAuthModal('register')">Sign Up</button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero" id="home">
+        <div class="hero-bg" id="hero-bg-interactive" style="background-image: url('images/leh_hero_bg.png');"></div>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <h1 class="hero-title">Discover the Extraordinary.</h1>
+            <p class="hero-subtitle">Experience the world's most breathtaking destinations curated for the modern traveler.</p>
+            
+            <div class="search-bar glass">
+                <div class="search-input">
+                    <i class="fa-solid fa-location-dot"></i>
+                    <div style="position: relative; width: 100%;">
+                        <label>Location</label>
+                        <input type="text" id="search-location" placeholder="Where are you going?" oninput="handleLocationSearch(this.value)" autocomplete="off">
+                        <div id="location-suggestions" class="suggestions-box"></div>
+                    </div>
+                </div>
+                <div class="divider"></div>
+                <div class="search-input">
+                    <i class="fa-solid fa-calendar-days"></i>
+                    <div>
+                        <label>Dates</label>
+                        <input type="date" id="search-dates" style="color-scheme: dark;">
+                    </div>
+                </div>
+                <div class="divider"></div>
+                <div class="search-input">
+                    <i class="fa-solid fa-user-group"></i>
+                    <div>
+                        <label>Travelers</label>
+                        <input type="text" placeholder="Add guests">
+                    </div>
+                </div>
+                <button class="btn btn-search" onclick="document.getElementById('destinations').scrollIntoView({behavior: 'smooth'})"><i class="fa-solid fa-magnifying-glass"></i> Explore</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Personalized AI Travel Planner Section -->
+    <section class="container" style="position: relative; z-index: 10; margin-top: -60px; margin-bottom: 40px;">
+        <div class="glass" style="padding: 2.5rem; border-radius: 20px; display: flex; flex-direction: column; gap: 1rem; align-items: center; text-align: center; border: 1px solid rgba(255, 255, 255, 0.4); box-shadow: 0 15px 35px rgba(0,0,0,0.2);">
+            <h3 style="font-size: 1.8rem; color: var(--dark); font-family: var(--font-heading);">
+                <i class="fa-solid fa-wand-magic-sparkles" style="color: var(--primary);"></i> AI Smart Trip Planner
+            </h3>
+            <p style="color: var(--dark-muted); font-size: 1rem; max-width: 600px;">
+                Hi Kumar! Tell us what kind of trip you want, and our AI will instantly build a custom, personalized itinerary just for you.
+            </p>
+            <div style="display: flex; width: 100%; max-width: 800px; gap: 1rem; flex-wrap: wrap; margin-top: 0.5rem;">
+                <input type="text" id="ai-prompt" placeholder="e.g., A 5-day romantic getaway to Paris with a focus on art and food..." style="flex: 1; padding: 1.2rem 1.5rem; border: 1px solid #ddd; border-radius: 50px; font-size: 1rem; min-width: 250px; outline: none; box-shadow: inset 0 2px 5px rgba(0,0,0,0.05); font-family: var(--font-body);">
+                <button class="btn btn-primary" onclick="generateAITrip()" style="border-radius: 50px; padding: 0 2.5rem; font-size: 1.1rem; display: flex; align-items: center; gap: 0.8rem; box-shadow: 0 5px 15px rgba(255,56,92,0.3);">
+                    Generate <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+            
+            <!-- AI Result Area -->
+            <div id="ai-result" style="display: none; width: 100%; max-width: 800px; text-align: left; background: #fff; padding: 2rem; border-radius: 16px; margin-top: 1.5rem; border: 1px solid #EEE; box-shadow: 0 10px 20px rgba(0,0,0,0.05);">
+                <div id="ai-loader" style="display: flex; align-items: center; gap: 1rem; color: var(--dark-muted);">
+                    <i class="fa-solid fa-circle-notch fa-spin" style="font-size: 1.5rem; color: var(--primary);"></i> 
+                    <span>Analyzing your preferences and crafting the perfect journey...</span>
+                </div>
+                <div id="ai-content" style="display: none;">
+                    <!-- Injected by JS -->
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Destinations Section -->
+    <section class="destinations" id="destinations">
+        <div class="section-header">
+            <h2>Trending Destinations</h2>
+            <p>Explore our handpicked selection of iconic locations.</p>
+        </div>
+        
+        <div class="gallery-grid">
+            <!-- Goa -->
+            <div class="destination-card large-card">
+                <div class="card-bg" style="background-image: url('images/goa_beach_1778876151732.png');"></div>
+                <div class="card-overlay"></div>
+                <div class="card-content">
+                    <div class="card-header">
+                        <span class="badge rating"><i class="fa-solid fa-star"></i> 4.9</span>
+                        <span class="badge tag">Top Rated</span>
+                    </div>
+                    <div class="card-info">
+                        <h3>Goa</h3>
+                        <p class="location"><i class="fa-solid fa-map-pin"></i> India</p>
+                        <p class="tagline">The ultimate party & beach paradise.</p>
+                        
+                        <div class="famous-for">
+                            <h4>Famous For:</h4>
+                            <div class="feature-chips">
+                                <span class="chip"><i class="fa-solid fa-umbrella-beach"></i> Beaches</span>
+                                <span class="chip"><i class="fa-solid fa-martini-glass-citrus"></i> Nightlife</span>
+                                <span class="chip"><i class="fa-solid fa-water"></i> Water Sports</span>
+                                <span class="chip"><i class="fa-solid fa-fish"></i> Seafood</span>
+                            </div>
+                            <button class="btn btn-explore mt-2" onclick="openExploreModal(this)">Explore More <i class="fa-solid fa-arrow-right"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Kashmir -->
+            <div class="destination-card">
+                <div class="card-bg" style="background-image: url('images/kashmir_valley_1778876169621.png');"></div>
+                <div class="card-overlay"></div>
+                <div class="card-content">
+                    <div class="card-header">
+                        <span class="badge rating"><i class="fa-solid fa-star"></i> 4.8</span>
+                    </div>
+                    <div class="card-info">
+                        <h3>Kashmir</h3>
+                        <p class="location"><i class="fa-solid fa-map-pin"></i> India</p>
+                        <p class="tagline">Paradise on Earth.</p>
+                        <div class="famous-for">
+                            <h4>Famous For:</h4>
+                            <div class="feature-chips">
+                                <span class="chip"><i class="fa-regular fa-snowflake"></i> Snowfall</span>
+                                <span class="chip"><i class="fa-solid fa-mountain"></i> Valleys</span>
+                                <span class="chip"><i class="fa-solid fa-sailboat"></i> Shikara</span>
+                            </div>
+                            <button class="btn btn-explore mt-2" onclick="openExploreModal(this)">Explore More</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Kerala -->
+            <div class="destination-card tall-card">
+                <div class="card-bg" style="background-image: url('images/kerala_backwaters_1778876183396.png');"></div>
+                <div class="card-overlay"></div>
+                <div class="card-content">
+                    <div class="card-header">
+                        <span class="badge rating"><i class="fa-solid fa-star"></i> 4.9</span>
+                    </div>
+                    <div class="card-info">
+                        <h3>Kerala</h3>
+                        <p class="location"><i class="fa-solid fa-map-pin"></i> India</p>
+                        <p class="tagline">God's own country.</p>
+                        <div class="famous-for">
+                            <h4>Famous For:</h4>
+                            <div class="feature-chips">
+                                <span class="chip"><i class="fa-solid fa-leaf"></i> Nature</span>
+                                <span class="chip"><i class="fa-solid fa-spa"></i> Ayurveda</span>
+                                <span class="chip"><i class="fa-solid fa-ship"></i> Houseboats</span>
+                            </div>
+                            <button class="btn btn-explore mt-2" onclick="openExploreModal(this)">Explore More</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ladakh -->
+            <div class="destination-card">
+                <div class="card-bg" style="background-image: url('images/ladakh_mountains_1778876199511.png');"></div>
+                <div class="card-overlay"></div>
+                <div class="card-content">
+                    <div class="card-header">
+                        <span class="badge rating"><i class="fa-solid fa-star"></i> 4.7</span>
+                    </div>
+                    <div class="card-info">
+                        <h3>Ladakh</h3>
+                        <p class="location"><i class="fa-solid fa-map-pin"></i> India</p>
+                        <p class="tagline">The land of high passes.</p>
+                        <div class="famous-for">
+                            <h4>Famous For:</h4>
+                            <div class="feature-chips">
+                                <span class="chip"><i class="fa-solid fa-motorcycle"></i> Biking</span>
+                                <span class="chip"><i class="fa-solid fa-mountain-sun"></i> Adventure</span>
+                            </div>
+                            <button class="btn btn-explore mt-2" onclick="openExploreModal(this)">Explore More</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Jaipur -->
+            <div class="destination-card large-card">
+                <div class="card-bg" style="background-image: url('images/jaipur_palace_1778876221157.png');"></div>
+                <div class="card-overlay"></div>
+                <div class="card-content">
+                    <div class="card-header">
+                        <span class="badge rating"><i class="fa-solid fa-star"></i> 4.8</span>
+                    </div>
+                    <div class="card-info">
+                        <h3>Jaipur</h3>
+                        <p class="location"><i class="fa-solid fa-map-pin"></i> Rajasthan, India</p>
+                        <p class="tagline">The Pink City.</p>
+                        <div class="famous-for">
+                            <h4>Famous For:</h4>
+                            <div class="feature-chips">
+                                <span class="chip"><i class="fa-brands fa-fort-awesome"></i> Palaces & Forts</span>
+                                <span class="chip"><i class="fa-solid fa-masks-theater"></i> Culture</span>
+                                <span class="chip"><i class="fa-solid fa-shop"></i> Markets</span>
+                            </div>
+                            <button class="btn btn-explore mt-2" onclick="openExploreModal(this)">Explore More</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Maldives -->
+            <div class="destination-card">
+                <div class="card-bg" style="background-image: url('images/maldives_resort_1778876240155.png');"></div>
+                <div class="card-overlay"></div>
+                <div class="card-content">
+                    <div class="card-header">
+                        <span class="badge rating"><i class="fa-solid fa-star"></i> 5.0</span>
+                        <span class="badge tag luxury">Luxury</span>
+                    </div>
+                    <div class="card-info">
+                        <h3>Maldives</h3>
+                        <p class="location"><i class="fa-solid fa-map-pin"></i> Maldives</p>
+                        <p class="tagline">A tropical paradise.</p>
+                        <div class="famous-for">
+                            <h4>Famous For:</h4>
+                            <div class="feature-chips">
+                                <span class="chip"><i class="fa-solid fa-house-tsunami"></i> Water Villas</span>
+                                <span class="chip"><i class="fa-solid fa-ring"></i> Honeymoon</span>
+                                <span class="chip"><i class="fa-solid fa-mask-face"></i> Scuba Diving</span>
+                            </div>
+                            <button class="btn btn-explore mt-2" onclick="openExploreModal(this)">Explore More</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Paris -->
+            <div class="destination-card">
+                <div class="card-bg" style="background-image: url('images/paris_eiffel_1778876257651.png');"></div>
+                <div class="card-overlay"></div>
+                <div class="card-content">
+                    <div class="card-header">
+                        <span class="badge rating"><i class="fa-solid fa-star"></i> 4.9</span>
+                    </div>
+                    <div class="card-info">
+                        <h3>Paris</h3>
+                        <p class="location"><i class="fa-solid fa-map-pin"></i> France</p>
+                        <p class="tagline">The city of love & lights.</p>
+                        <div class="famous-for">
+                            <h4>Famous For:</h4>
+                            <div class="feature-chips">
+                                <span class="chip"><i class="fa-solid fa-monument"></i> Eiffel Tower</span>
+                                <span class="chip"><i class="fa-solid fa-shirt"></i> Fashion</span>
+                                <span class="chip"><i class="fa-solid fa-mug-hot"></i> Cafes</span>
+                            </div>
+                            <button class="btn btn-explore mt-2" onclick="openExploreModal(this)">Explore More</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bali -->
+            <div class="destination-card wide-card">
+                <div class="card-bg" style="background-image: url('images/bali_beach_1778876276619.png');"></div>
+                <div class="card-overlay"></div>
+                <div class="card-content">
+                    <div class="card-header">
+                        <span class="badge rating"><i class="fa-solid fa-star"></i> 4.8</span>
+                    </div>
+                    <div class="card-info">
+                        <h3>Bali</h3>
+                        <p class="location"><i class="fa-solid fa-map-pin"></i> Indonesia</p>
+                        <p class="tagline">Island of the Gods.</p>
+                        <div class="famous-for">
+                            <h4>Famous For:</h4>
+                            <div class="feature-chips">
+                                <span class="chip"><i class="fa-solid fa-umbrella-beach"></i> Beaches</span>
+                                <span class="chip"><i class="fa-solid fa-hotel"></i> Resorts</span>
+                                <span class="chip"><i class="fa-solid fa-music"></i> Nightlife</span>
+                                <span class="chip"><i class="fa-solid fa-leaf"></i> Nature</span>
+                            </div>
+                            <button class="btn btn-explore mt-2" onclick="openExploreModal(this)">Explore More</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Smart Hotel Recommendations -->
+    <section class="hotels" id="hotels">
+        <div class="section-header center">
+            <h2>Smart Hotel Recommendations</h2>
+            <p>Discover luxurious stays tailored to your preferences with immersive 360-degree room views.</p>
+        </div>
+        
+        <div class="hotel-carousel">
+            <!-- Hotel 1 -->
+            <div class="hotel-card glass">
+                <div class="hotel-img" style="background-image: url('images/hotel_room_goa.png');">
+                    <div class="heart-icon"><i class="fa-regular fa-heart"></i></div>
+                    <button class="btn btn-360" onclick="open360Modal(3)"><i class="fa-solid fa-vr-cardboard"></i> 360° View</button>
+                </div>
+                <div class="hotel-details">
+                    <div class="hotel-title-row">
+                        <h3>Taj Exotica Resort</h3>
+                        <span class="rating"><i class="fa-solid fa-star"></i> 5.0</span>
+                    </div>
+                    <p class="hotel-location"><i class="fa-solid fa-map-pin"></i> Goa, India</p>
+                    <div class="hotel-facilities">
+                        <span><i class="fa-solid fa-wifi"></i> Free Wifi</span>
+                        <span><i class="fa-solid fa-person-swimming"></i> Pool</span>
+                        <span><i class="fa-solid fa-utensils"></i> Breakfast</span>
+                        <span><i class="fa-solid fa-spa"></i> Spa</span>
+                    </div>
+                    <div class="hotel-price-row">
+                        <div class="price">
+                            <h4>$350</h4>
+                            <p>/ night</p>
+                        </div>
+                        <button class="btn btn-primary">Book Now</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Additional hotels can be added here or generated dynamically -->
+            <!-- Hotel 2 (Placeholder using same image for layout demo) -->
+            <div class="hotel-card glass">
+                <div class="hotel-img" style="background-image: url('images/hotel_room_palace.png');">
+                    <div class="heart-icon"><i class="fa-regular fa-heart"></i></div>
+                    <button class="btn btn-360" onclick="open360Modal(0)"><i class="fa-solid fa-vr-cardboard"></i> 360° View</button>
+                </div>
+                <div class="hotel-details">
+                    <div class="hotel-title-row">
+                        <h3>Rambagh Palace</h3>
+                        <span class="rating"><i class="fa-solid fa-star"></i> 4.9</span>
+                    </div>
+                    <p class="hotel-location"><i class="fa-solid fa-map-pin"></i> Jaipur, India</p>
+                    <div class="hotel-facilities">
+                        <span><i class="fa-solid fa-wifi"></i> Free Wifi</span>
+                        <span><i class="fa-solid fa-crown"></i> Royal Suite</span>
+                        <span><i class="fa-solid fa-utensils"></i> Dining</span>
+                    </div>
+                    <div class="hotel-price-row">
+                        <div class="price">
+                            <h4>$450</h4>
+                            <p>/ night</p>
+                        </div>
+                        <button class="btn btn-primary">Book Now</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="hotel-card glass">
+                <div class="hotel-img" style="background-image: url('images/hotel_room_maldives.png');">
+                    <div class="heart-icon"><i class="fa-regular fa-heart"></i></div>
+                    <button class="btn btn-360" onclick="open360Modal(1)"><i class="fa-solid fa-vr-cardboard"></i> 360° View</button>
+                </div>
+                <div class="hotel-details">
+                    <div class="hotel-title-row">
+                        <h3>Soneva Jani</h3>
+                        <span class="rating"><i class="fa-solid fa-star"></i> 5.0</span>
+                    </div>
+                    <p class="hotel-location"><i class="fa-solid fa-map-pin"></i> Maldives</p>
+                    <div class="hotel-facilities">
+                        <span><i class="fa-solid fa-water"></i> Water Villa</span>
+                        <span><i class="fa-solid fa-person-swimming"></i> Private Pool</span>
+                        <span><i class="fa-solid fa-martini-glass"></i> Mini Bar</span>
+                    </div>
+                    <div class="hotel-price-row">
+                        <div class="price">
+                            <h4>$850</h4>
+                            <p>/ night</p>
+                        </div>
+                        <button class="btn btn-primary">Book Now</button>
+                    </div>
+                </div>
+            </div>
+            <div class="hotel-card glass">
+                <div class="hotel-img" style="background-image: url('images/hotel_room_leh.png');">
+                    <div class="heart-icon"><i class="fa-regular fa-heart"></i></div>
+                    <button class="btn btn-360" onclick="open360Modal(2)"><i class="fa-solid fa-vr-cardboard"></i> 360° View</button>
+                </div>
+                <div class="hotel-details">
+                    <div class="hotel-title-row">
+                        <h3>The Grand Dragon</h3>
+                        <span class="rating"><i class="fa-solid fa-star"></i> 4.8</span>
+                    </div>
+                    <p class="hotel-location"><i class="fa-solid fa-map-pin"></i> Leh Ladakh, India</p>
+                    <div class="hotel-facilities">
+                        <span><i class="fa-solid fa-mountain"></i> Mountain View</span>
+                        <span><i class="fa-solid fa-fire"></i> Heater</span>
+                        <span><i class="fa-solid fa-wifi"></i> Free Wifi</span>
+                    </div>
+                    <div class="hotel-price-row">
+                        <div class="price">
+                            <h4>$250</h4>
+                            <p>/ night</p>
+                        </div>
+                        <button class="btn btn-primary">Book Now</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Logistics Section: Transport & Guides -->
+    <section class="logistics container" id="logistics">
+        <div class="logistics-grid">
+            <!-- Transport -->
+            <div class="transport-section" id="transport">
+                <div class="section-header">
+                    <h2>Vehicle & Rider Suggestions</h2>
+                    <p>Seamless local transit options.</p>
+                </div>
+                <div class="transport-cards">
+                    <div class="transport-card glass hover-float">
+                        <div class="icon-circle"><i class="fa-solid fa-motorcycle"></i></div>
+                        <div class="transport-info">
+                            <h4>Bike Rental</h4>
+                            <p>Best for solo/couples. High agility.</p>
+                            <div class="tags">
+                                <span class="tag">Economy</span>
+                            </div>
+                        </div>
+                        <div class="transport-price">Est. $15/day</div>
+                    </div>
+                    <div class="transport-card glass hover-float">
+                        <div class="icon-circle"><i class="fa-solid fa-car-side"></i></div>
+                        <div class="transport-info">
+                            <h4>Premium Cab</h4>
+                            <p>Comfortable sedans with local drivers.</p>
+                            <div class="tags">
+                                <span class="tag luxury">Comfort</span>
+                            </div>
+                        </div>
+                        <div class="transport-price">Est. $45/day</div>
+                    </div>
+                    <div class="transport-card glass hover-float">
+                        <div class="icon-circle"><i class="fa-solid fa-truck-monster"></i></div>
+                        <div class="transport-info">
+                            <h4>Luxury SUV</h4>
+                            <p>Perfect for groups and tough terrains.</p>
+                            <div class="tags">
+                                <span class="tag luxury">Premium</span>
+                            </div>
+                        </div>
+                        <div class="transport-price">Est. $80/day</div>
+                    </div>
+                    <div class="transport-card glass hover-float">
+                        <div class="icon-circle"><i class="fa-solid fa-mountain"></i></div>
+                        <div class="transport-info">
+                            <h4>4x4 Off-Road Jeep</h4>
+                            <p>For adventure & rugged terrains.</p>
+                            <div class="tags">
+                                <span class="tag" style="background: #FFF3E0; color: #E65100;">Adventure</span>
+                            </div>
+                        </div>
+                        <div class="transport-price">Est. $60/day</div>
+                    </div>
+                    <div class="transport-card glass hover-float" style="border-left: 4px solid var(--primary);">
+                        <div class="icon-circle"><i class="fa-solid fa-car"></i></div>
+                        <div class="transport-info">
+                            <h4>Ultra VIP Lux Limo</h4>
+                            <p>Chauffeur-driven ultimate experience.</p>
+                            <div class="tags">
+                                <span class="tag luxury">VIP Lux</span>
+                            </div>
+                        </div>
+                        <div class="transport-price">Est. $150/day</div>
+                    </div>
+                </div>
+            </div>
+            <!-- Local Guides -->
+            <div class="guides-section" id="guides">
+                <div class="section-header">
+                    <h2>Verified Local Guides</h2>
+                    <p>Experience places through local eyes.</p>
+                </div>
+                <div class="guide-cards">
+                    <div class="guide-card glass hover-float">
+                        <img src="images/male_guide_3.png" alt="Male Guide" class="guide-img" onclick="window.location.href='guide-profile.html?name=Arjun%20Sharma&img=images/male_guide_3.png&price=50'">
+                        <div class="guide-info">
+                            <h4>Arjun Sharma</h4>
+                            <p class="specialty">History &amp; Culture Specialist</p>
+                            <div class="guide-meta">
+                                <span><i class="fa-solid fa-star"></i> 4.9 (120 trips)</span>
+                                <span><i class="fa-solid fa-language"></i> Eng, Hindi, French</span>
+                                <span><i class="fa-solid fa-mars" style="color:#4A90D9;"></i> Male</span>
+                            </div>
+                        </div>
+                        <button class="btn btn-outline btn-small" onclick="openBookingModal('guide','Arjun Sharma','$50/day')">Hire</button>
+                    </div>
+                    <div class="guide-card glass hover-float">
+                        <img src="images/female_guide.png" alt="Female Guide" class="guide-img" onclick="window.location.href='guide-profile.html?name=Priya%20Patel&img=images/female_guide.png&price=45'">
+                        <div class="guide-info">
+                            <h4>Priya Patel</h4>
+                            <p class="specialty">Adventure &amp; Nature Expert</p>
+                            <div class="guide-meta">
+                                <span><i class="fa-solid fa-star"></i> 4.8 (95 trips)</span>
+                                <span><i class="fa-solid fa-language"></i> Eng, Gujarati, Spanish</span>
+                                <span><i class="fa-solid fa-venus" style="color:#E91E8C;"></i> Female</span>
+                            </div>
+                        </div>
+                        <button class="btn btn-outline btn-small" onclick="openBookingModal('guide','Priya Patel','$45/day')">Hire</button>
+                    </div>
+                    <div class="guide-card glass hover-float">
+                        <img src="images/male_guide_4.png" alt="Male Guide" class="guide-img" onclick="window.location.href='guide-profile.html?name=Ravi%20Varma&img=images/male_guide_4.png&price=55'">
+                        <div class="guide-info">
+                            <h4>Ravi Varma</h4>
+                            <p class="specialty">Wildlife &amp; Photography Guide</p>
+                            <div class="guide-meta">
+                                <span><i class="fa-solid fa-star"></i> 4.9 (110 trips)</span>
+                                <span><i class="fa-solid fa-language"></i> Eng, Hindi, Tamil</span>
+                                <span><i class="fa-solid fa-mars" style="color:#4A90D9;"></i> Male</span>
+                            </div>
+                        </div>
+                        <button class="btn btn-outline btn-small" onclick="openBookingModal('guide','Ravi Varma','$55/day')">Hire</button>
+                    </div>
+                    <div class="guide-card glass hover-float">
+                        <img src="images/female_guide_2.png" alt="Female Guide" class="guide-img" onclick="window.location.href='guide-profile.html?name=Ananya%20Singh&img=images/female_guide_2.png&price=60'">
+                        <div class="guide-info">
+                            <h4>Ananya Singh</h4>
+                            <p class="specialty">City Tours &amp; Culinary Expert</p>
+                            <div class="guide-meta">
+                                <span><i class="fa-solid fa-star"></i> 5.0 (200+ trips)</span>
+                                <span><i class="fa-solid fa-language"></i> Eng, Hindi, French</span>
+                                <span><i class="fa-solid fa-venus" style="color:#E91E8C;"></i> Female</span>
+                            </div>
+                        </div>
+                        <button class="btn btn-outline btn-small" onclick="openBookingModal('guide','Ananya Singh','$60/day')">Hire</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 360 Room View Modal -->
+    <div class="modal modal-top" id="modal-360">
+        <div class="modal-content" style="max-width: 950px; padding: 0; overflow: hidden; background: #111;">
+            <button class="close-btn" onclick="close360Modal()" style="background: rgba(255,255,255,0.15); color: #fff; z-index: 10;"><i class="fa-solid fa-xmark"></i></button>
+            
+            <div style="padding: 1.5rem 2rem 1rem; background: #1a1a1a; border-bottom: 1px solid #333;">
+                <h3 style="color: #fff; font-size: 1.5rem; margin-bottom: 0.8rem;"><i class="fa-solid fa-vr-cardboard" style="color: var(--primary);"></i> &nbsp;Interactive 360° Room Explorer</h3>
+                <p style="color: #aaa; font-size: 0.9rem; margin-bottom: 1rem;">Drag left/right to pan the room view. Click a room tab to switch.</p>
+                <!-- Room Tabs -->
+                <div style="display: flex; gap: 0.8rem; flex-wrap: wrap;">
+                    <button class="room-tab active" id="tab-0" onclick="switchRoom(0)">🏨 Luxury Suite</button>
+                    <button class="room-tab" id="tab-1" onclick="switchRoom(1)">🌊 Ocean Villa</button>
+                    <button class="room-tab" id="tab-2" onclick="switchRoom(2)">🏔️ Mountain Chalet</button>
+                    <button class="room-tab" id="tab-3" onclick="switchRoom(3)">🏖️ Beach Resort</button>
+                </div>
+            </div>
+
+            <div class="pano-container" id="pano-container">
+                <div class="pano-image" id="pano-image"></div>
+                <div class="pano-instructions"><i class="fa-solid fa-arrows-left-right"></i> Drag to explore</div>
+            </div>
+
+            <div style="padding: 1rem 2rem; background: #1a1a1a; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #333;">
+                <div>
+                    <span id="room-name" style="color: #fff; font-weight: 700; font-size: 1.1rem;">Luxury Suite</span>
+                    <span id="room-price" style="color: var(--primary); font-weight: 800; font-size: 1.3rem; margin-left: 1rem;">$350/night</span>
+                </div>
+                <button class="btn btn-primary" onclick="openBookingModal('hotel')">Book This Room</button>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Auth Modal -->
+    <div class="modal" id="modal-auth">
+        <div class="modal-content glass" style="max-width: 450px; text-align: center;">
+            <button class="close-btn" onclick="closeAuthModal()"><i class="fa-solid fa-xmark"></i></button>
+            
+            <div id="auth-login-view">
+                <h3 style="margin-bottom: 1.5rem;">Welcome Back</h3>
+                <form id="login-form" class="auth-form" onsubmit="handleLogin(event)">
+                    <div class="input-group">
+                        <i class="fa-solid fa-user"></i>
+                        <input type="text" id="login-username" placeholder="Username" required>
+                    </div>
+                    <div class="input-group">
+                        <i class="fa-solid fa-lock"></i>
+                        <input type="password" id="login-password" placeholder="Password" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center; margin-top: 1rem;">Log In</button>
+                </form>
+                <p style="margin-top: 1.5rem; font-size: 0.9rem;">Don't have an account? <a href="#" onclick="switchAuthView('register')" style="color: var(--primary); font-weight: 600;">Sign up</a></p>
+            </div>
+
+            <div id="auth-register-view" style="display: none;">
+                <h3 style="margin-bottom: 1.5rem;">Create Account</h3>
+                <form id="register-form" class="auth-form" onsubmit="handleRegister(event)">
+                    <div class="input-group">
+                        <i class="fa-solid fa-user"></i>
+                        <input type="text" id="register-username" placeholder="Username" required>
+                    </div>
+                    <div class="input-group">
+                        <i class="fa-solid fa-envelope"></i>
+                        <input type="email" id="register-email" placeholder="Email" required>
+                    </div>
+                    <div class="input-group">
+                        <i class="fa-solid fa-lock"></i>
+                        <input type="password" id="register-password" placeholder="Password" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center; margin-top: 1rem;">Sign Up</button>
+                </form>
+                <p style="margin-top: 1.5rem; font-size: 0.9rem;">Already have an account? <a href="#" onclick="switchAuthView('login')" style="color: var(--primary); font-weight: 600;">Log in</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Explore Modal -->
+    <div class="modal" id="modal-explore">
+        <div class="modal-content glass" style="max-width: 900px; padding: 0; overflow-y: auto; max-height: 90vh;">
+            <button class="close-btn" onclick="closeExploreModal()" style="z-index: 10; position: absolute; top: 1.5rem; right: 1.5rem; background: rgba(255,255,255,0.8);"><i class="fa-solid fa-xmark"></i></button>
+            
+            <div id="explore-img" style="height: 350px; background-size: cover; background-position: center; position: relative;">
+                <div style="position: absolute; bottom: 0; left: 0; width: 100%; padding: 2rem; background: linear-gradient(to top, rgba(0,0,0,0.9), transparent); color: white;">
+                    <h3 id="explore-title" style="font-size: 3rem; margin-bottom: 0.5rem; color: white;">Destination</h3>
+                    <p id="explore-location" style="font-size: 1.2rem; opacity: 0.9;"><i class="fa-solid fa-map-pin"></i> Location</p>
+                </div>
+            </div>
+            
+            <div style="padding: 2rem;">
+                <p id="explore-desc" style="color: var(--dark-muted); font-size: 1.1rem; line-height: 1.6; margin-bottom: 2rem;">Description goes here.</p>
+                
+                <div class="explore-sections">
+                                     <!-- Travel Package -->
+                    <div class="explore-section">
+                        <h4><i class="fa-solid fa-box-open"></i> Curated Travel Package</h4>
+                        <div class="package-card" style="background: linear-gradient(135deg, #FF385C11, #FF385C22); border-radius: 16px; padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; border: 1px solid #FF385C44;">
+                            <div>
+                                <h5 style="font-size: 1.2rem; margin-bottom: 0.3rem;">The <span id="explore-pkg-name">Premium</span> Experience</h5>
+                                <p style="font-size: 0.85rem; color: var(--dark-muted);">✈️ Flights &nbsp;🏨 5-Star Stay &nbsp;🗺️ Guided Tours &nbsp;🍽️ Meals</p>
+                            </div>
+                            <div style="text-align: right;">
+                                <div style="font-size: 1.8rem; font-weight: 800; color: var(--primary);">$<span id="explore-pkg-price">1200</span></div>
+                                <p style="font-size: 0.75rem; color: var(--dark-muted); margin-bottom: 0.5rem;">per person</p>
+                                <button class="btn btn-primary" style="padding: 0.5rem 1.2rem; font-size: 0.9rem;" onclick="openBookingModal('package')">Book Package</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Nearby Places -->
+                    <div class="explore-section">
+                        <h4><i class="fa-solid fa-map"></i> Nearby Attractions</h4>
+                        <div class="nearby-grid" id="explore-nearby-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                            <!-- Injected by JS -->
+                        </div>
+                    </div>
+
+                    <!-- Location Map -->
+                    <div class="explore-section">
+                        <h4><i class="fa-solid fa-location-crosshairs"></i> Interactive Map</h4>
+                        <div style="border-radius: 16px; overflow: hidden; border: 1px solid #EEE; height: 250px; background: #F8F9FA;">
+                            <iframe id="explore-map-iframe" width="100%" height="100%" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0" src=""></iframe>
+                        </div>
+                    </div>
+
+                    <!-- Recommended Stay -->
+                    <div class="explore-section">
+                        <h4><i class="fa-solid fa-hotel"></i> Recommended Stay</h4>
+                        <div style="background: #FFF; border-radius: 16px; overflow: hidden; display: flex; border: 1px solid #EEE;">
+                            <div id="explore-stay-img" style="width: 150px; min-height: 130px; background-size: cover; background-position: center; background-image: url('images/hotel_room_1778876311607.png');"></div>
+                            <div style="padding: 1.5rem; flex: 1;">
+                                <h5 style="font-size: 1.2rem; margin-bottom: 0.3rem;" id="explore-stay-name">Luxury Resort</h5>
+                                <p style="font-size: 0.85rem; color: var(--dark-muted); margin-bottom: 0.3rem;"><i class="fa-solid fa-star" style="color: gold;"></i> 5.0 &bull; Breakfast Included &bull; Free WiFi</p>
+                                <p style="font-size: 1rem; font-weight: 700; color: var(--primary); margin-bottom: 1rem;">$<span id="explore-stay-price">350</span>/night</p>
+                                <div style="display: flex; gap: 0.5rem;">
+                                    <button class="btn btn-primary" style="padding: 0.4rem 1rem; font-size: 0.85rem;" onclick="openBookingModal('hotel')">Book Room</button>
+                                    <button class="btn btn-outline" id="explore-stay-360-btn" style="padding: 0.4rem 1rem; font-size: 0.85rem; border-color: var(--dark-muted); color: var(--dark-muted);" onclick="open360Modal()">360° View</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Vehicle Options -->
+                    <div class="explore-section">
+                        <h4><i class="fa-solid fa-car"></i> Vehicle Options</h4>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.8rem;">
+                            <div class="vehicle-opt" onclick="openBookingModal('car', 'Bike Rental', '$15/day')">
+                                <div class="v-icon"><i class="fa-solid fa-motorcycle"></i></div>
+                                <p class="v-name">Bike Rental</p>
+                                <p class="v-price">$15/day</p>
+                                <span class="v-book">Book</span>
+                            </div>
+                            <div class="vehicle-opt" onclick="openBookingModal('car', 'Premium Cab', '$45/day')">
+                                <div class="v-icon"><i class="fa-solid fa-car-side"></i></div>
+                                <p class="v-name">Premium Cab</p>
+                                <p class="v-price">$45/day</p>
+                                <span class="v-book">Book</span>
+                            </div>
+                            <div class="vehicle-opt" onclick="openBookingModal('car', 'Luxury SUV', '$80/day')">
+                                <div class="v-icon"><i class="fa-solid fa-truck-monster"></i></div>
+                                <p class="v-name">Luxury SUV</p>
+                                <p class="v-price">$80/day</p>
+                                <span class="v-book">Book</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Local Guide & Transport -->
+                    <div class="explore-section">
+                        <h4><i class="fa-solid fa-user-tie"></i> Local Driver &amp; Guide</h4>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                            <div style="background: #FFF; border-radius: 16px; padding: 1.2rem; display: flex; flex-direction: column; align-items: center; text-align: center; border: 1px solid #EEE; gap: 0.5rem;">
+                                <img src="images/male_guide_3.png" style="width: 65px; height: 65px; border-radius: 50%; object-fit: cover; border: 3px solid var(--primary); cursor: pointer;" onclick="window.location.href='guide-profile.html?name=Rajesh%20Kumar&img=images/male_guide_3.png&price=50'">
+                                <h5 style="margin: 0;">Rajesh Kumar</h5>
+                                <p style="font-size: 0.8rem; color: var(--dark-muted);">🌟 4.9 &bull; Eng, Hindi &bull; 150+ trips</p>
+                                <p style="font-size: 0.8rem; color: var(--dark-muted);">History &amp; Culture Specialist</p>
+                                <button class="btn btn-primary" style="padding: 0.4rem 1.2rem; font-size: 0.85rem; width: 100%;" onclick="openBookingModal('guide', 'Rajesh Kumar')">Hire — $50/day</button>
+                            </div>
+                            <div style="background: #FFF; border-radius: 16px; padding: 1.2rem; display: flex; flex-direction: column; align-items: center; text-align: center; border: 1px solid #EEE; gap: 0.5rem;">
+                                <img src="images/female_guide.png" style="width: 65px; height: 65px; border-radius: 50%; object-fit: cover; border: 3px solid var(--secondary); cursor: pointer;" onclick="window.location.href='guide-profile.html?name=Priya%20Mehta&img=images/female_guide.png&price=45'">
+                                <h5 style="margin: 0;">Priya Mehta</h5>
+                                <p style="font-size: 0.8rem; color: var(--dark-muted);">🌟 4.8 &bull; Eng, Local &bull; 90+ trips</p>
+                                <p style="font-size: 0.8rem; color: var(--dark-muted);">Adventure &amp; Nature Expert</p>
+                                <button class="btn btn-primary" style="padding: 0.4rem 1.2rem; font-size: 0.85rem; width: 100%;" onclick="openBookingModal('guide', 'Priya Mehta')">Hire — $45/day</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Booking Modal -->
+    <div class="modal" id="modal-booking">
+        <div class="modal-content glass" style="max-width: 480px;">
+            <button class="close-btn" onclick="closeBookingModal()"><i class="fa-solid fa-xmark"></i></button>
+            <div id="booking-icon" style="font-size: 2.5rem; margin-bottom: 0.5rem; text-align: center;"></div>
+            <h3 id="booking-title" style="text-align: center; margin-bottom: 0.3rem;">Confirm Booking</h3>
+            <p id="booking-subtitle" style="text-align: center; color: var(--dark-muted); margin-bottom: 1.5rem; font-size: 0.95rem;"></p>
+            <form class="auth-form" onsubmit="handleBookingSubmit(event)">
+                <div class="input-group">
+                    <i class="fa-solid fa-user"></i>
+                    <input type="text" id="booking-name" placeholder="Full Name" required>
+                </div>
+                <div class="input-group">
+                    <i class="fa-solid fa-envelope"></i>
+                    <input type="email" id="booking-email" placeholder="Email Address" required>
+                </div>
+                <div class="input-group">
+                    <i class="fa-solid fa-phone"></i>
+                    <input type="tel" id="booking-phone" placeholder="Phone Number" required>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <div class="input-group">
+                        <i class="fa-solid fa-calendar-check"></i>
+                        <input type="date" id="booking-checkin" required>
+                    </div>
+                    <div class="input-group">
+                        <i class="fa-solid fa-calendar-xmark"></i>
+                        <input type="date" id="booking-checkout">
+                    </div>
+                </div>
+                <div class="input-group" id="booking-guests-group">
+                    <i class="fa-solid fa-user-group"></i>
+                    <input type="number" id="booking-guests" placeholder="No. of Guests" min="1" max="20">
+                </div>
+                <div style="background: #F8F9FA; border-radius: 12px; padding: 1rem; display: flex; justify-content: space-between; align-items: center;">
+                    <span style="color: var(--dark-muted); font-size: 0.9rem;">Estimated Total</span>
+                    <span id="booking-total" style="font-size: 1.5rem; font-weight: 800; color: var(--primary);">$350</span>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center; padding: 1rem; font-size: 1.1rem;">
+                    <i class="fa-solid fa-lock"></i>&nbsp; Confirm &amp; Pay Securely
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Booking Success Modal -->
+    <div class="modal" id="modal-success">
+        <div class="modal-content glass" style="max-width: 420px; text-align: center; padding: 3rem 2rem;">
+            <div style="font-size: 4rem; margin-bottom: 1rem;">🎉</div>
+            <h3 style="margin-bottom: 0.5rem; color: var(--secondary);">Booking Confirmed!</h3>
+            <p style="color: var(--dark-muted); margin-bottom: 2rem;" id="success-msg">Your booking has been placed successfully. A confirmation will be sent to your email.</p>
+            <button class="btn btn-primary" style="width: 100%; justify-content: center;" onclick="closeSuccessModal()">Done</button>
+        </div>
+    </div>
+
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <h2>Wanderlust.</h2>
+                <p>Curating extraordinary travel experiences for the modern explorer.</p>
+            </div>
+            <div class="footer-links">
+                <div class="link-group">
+                    <h4>Company</h4>
+                    <a href="#">About Us</a>
+                    <a href="#">Careers</a>
+                    <a href="#">Press</a>
+                </div>
+                <div class="link-group">
+                    <h4>Support</h4>
+                    <a href="#">Help Center</a>
+                    <a href="#">Safety</a>
+                    <a href="#">Cancellation Options</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Wanderlust Travel. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/script.js"></script>
+</body>
+</html>
