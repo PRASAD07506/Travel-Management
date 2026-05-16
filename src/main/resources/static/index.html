@@ -440,7 +440,7 @@
                 </div>
                 <div class="transport-cards">
                     <div class="transport-card glass hover-float">
-                        <div class="icon-circle"><i class="fa-solid fa-motorcycle"></i></div>
+                        <img src="images/vehicle_bike_1778920240935.png" class="transport-img" alt="Bike">
                         <div class="transport-info">
                             <h4>Bike Rental</h4>
                             <p>Best for solo/couples. High agility.</p>
@@ -448,10 +448,13 @@
                                 <span class="tag">Economy</span>
                             </div>
                         </div>
-                        <div class="transport-price">Est. $15/day</div>
+                        <div class="transport-price" style="display: flex; flex-direction: column; align-items: flex-end; gap: 0.5rem;">
+                            <div>Est. $15/day</div>
+                            <button class="btn btn-primary" style="padding: 0.3rem 0.8rem; font-size: 0.85rem;" onclick="openBookingModal('car', 'Bike Rental', '$15/day')">Book</button>
+                        </div>
                     </div>
                     <div class="transport-card glass hover-float">
-                        <div class="icon-circle"><i class="fa-solid fa-car-side"></i></div>
+                        <img src="images/vehicle_cab_1778920260444.png" class="transport-img" alt="Premium Cab">
                         <div class="transport-info">
                             <h4>Premium Cab</h4>
                             <p>Comfortable sedans with local drivers.</p>
@@ -459,10 +462,13 @@
                                 <span class="tag luxury">Comfort</span>
                             </div>
                         </div>
-                        <div class="transport-price">Est. $45/day</div>
+                        <div class="transport-price" style="display: flex; flex-direction: column; align-items: flex-end; gap: 0.5rem;">
+                            <div>Est. $45/day</div>
+                            <button class="btn btn-primary" style="padding: 0.3rem 0.8rem; font-size: 0.85rem;" onclick="openBookingModal('car', 'Premium Cab', '$45/day')">Book</button>
+                        </div>
                     </div>
                     <div class="transport-card glass hover-float">
-                        <div class="icon-circle"><i class="fa-solid fa-truck-monster"></i></div>
+                        <img src="images/vehicle_suv_1778920283230.png" class="transport-img" alt="Luxury SUV">
                         <div class="transport-info">
                             <h4>Luxury SUV</h4>
                             <p>Perfect for groups and tough terrains.</p>
@@ -470,10 +476,13 @@
                                 <span class="tag luxury">Premium</span>
                             </div>
                         </div>
-                        <div class="transport-price">Est. $80/day</div>
+                        <div class="transport-price" style="display: flex; flex-direction: column; align-items: flex-end; gap: 0.5rem;">
+                            <div>Est. $80/day</div>
+                            <button class="btn btn-primary" style="padding: 0.3rem 0.8rem; font-size: 0.85rem;" onclick="openBookingModal('car', 'Luxury SUV', '$80/day')">Book</button>
+                        </div>
                     </div>
                     <div class="transport-card glass hover-float">
-                        <div class="icon-circle"><i class="fa-solid fa-mountain"></i></div>
+                        <img src="images/vehicle_jeep_1778920303531.png" class="transport-img" alt="4x4 Jeep">
                         <div class="transport-info">
                             <h4>4x4 Off-Road Jeep</h4>
                             <p>For adventure & rugged terrains.</p>
@@ -481,10 +490,13 @@
                                 <span class="tag" style="background: #FFF3E0; color: #E65100;">Adventure</span>
                             </div>
                         </div>
-                        <div class="transport-price">Est. $60/day</div>
+                        <div class="transport-price" style="display: flex; flex-direction: column; align-items: flex-end; gap: 0.5rem;">
+                            <div>Est. $60/day</div>
+                            <button class="btn btn-primary" style="padding: 0.3rem 0.8rem; font-size: 0.85rem;" onclick="openBookingModal('car', '4x4 Off-Road Jeep', '$60/day')">Book</button>
+                        </div>
                     </div>
                     <div class="transport-card glass hover-float" style="border-left: 4px solid var(--primary);">
-                        <div class="icon-circle"><i class="fa-solid fa-car"></i></div>
+                        <img src="images/vehicle_limo_1778920321526.png" class="transport-img" alt="VIP Limo">
                         <div class="transport-info">
                             <h4>Ultra VIP Lux Limo</h4>
                             <p>Chauffeur-driven ultimate experience.</p>
@@ -492,7 +504,10 @@
                                 <span class="tag luxury">VIP Lux</span>
                             </div>
                         </div>
-                        <div class="transport-price">Est. $150/day</div>
+                        <div class="transport-price" style="display: flex; flex-direction: column; align-items: flex-end; gap: 0.5rem;">
+                            <div>Est. $150/day</div>
+                            <button class="btn btn-primary" style="padding: 0.3rem 0.8rem; font-size: 0.85rem;" onclick="openBookingModal('car', 'Ultra VIP Lux Limo', '$150/day')">Book</button>
+                        </div>
                     </div>
                 </div>
             </div>

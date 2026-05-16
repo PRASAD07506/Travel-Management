@@ -400,6 +400,13 @@ let currentBookingPrice = 0;
 let currentBookingUnit = 'night';
 
 function openBookingModal(type, label, priceStr) {
+    const token = localStorage.getItem('token');
+    if (!token) {
+        alert("Please log in or sign up first to make a booking.");
+        openAuthModal('login');
+        return;
+    }
+
     const cfg = bookingConfig[type] || bookingConfig['hotel'];
     const price = priceStr ? parseInt(priceStr.replace(/\D/g, '')) : cfg.basePrice;
     currentBookingPrice = price;

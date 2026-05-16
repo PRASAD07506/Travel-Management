@@ -697,6 +697,14 @@ section {
     margin-right: 1.5rem;
 }
 
+.transport-img {
+    width: 80px; height: 80px;
+    border-radius: 12px;
+    object-fit: cover;
+    margin-right: 1.5rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
 .transport-info {
     flex: 1;
 }
