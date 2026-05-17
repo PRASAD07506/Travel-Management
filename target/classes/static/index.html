@@ -822,6 +822,19 @@
         </div>
     </div>
 
+    <!-- Info Modal -->
+    <div class="modal" id="modal-info">
+        <div class="modal-content glass" style="max-width: 600px; padding: 3rem 2rem;">
+            <button class="close-btn" onclick="closeInfoModal()"><i class="fa-solid fa-xmark"></i></button>
+            <h3 id="info-title" style="margin-bottom: 1.5rem; color: var(--primary);">Title</h3>
+            <div id="info-content" style="color: var(--dark-muted); line-height: 1.6; font-size: 1rem;">
+                <!-- Content injected here -->
+            </div>
+            <button class="btn btn-primary" style="margin-top: 2rem; padding: 0.5rem 1.5rem;" onclick="closeInfoModal()">Close</button>
+        </div>
+    </div>
+
+
 
     <!-- Footer -->
     <footer class="footer">
@@ -833,15 +846,21 @@
             <div class="footer-links">
                 <div class="link-group">
                     <h4>Company</h4>
-                    <a href="#">About Us</a>
-                    <a href="#">Careers</a>
-                    <a href="#">Press</a>
+                    <a href="#" onclick="openInfoModal('About Us')">About Us</a>
+                    <a href="#" onclick="openInfoModal('Careers')">Careers</a>
+                    <a href="#" onclick="openInfoModal('Press')">Press</a>
                 </div>
                 <div class="link-group">
                     <h4>Support</h4>
-                    <a href="#">Help Center</a>
-                    <a href="#">Safety</a>
-                    <a href="#">Cancellation Options</a>
+                    <a href="#" onclick="openInfoModal('Help Center')">Help Center</a>
+                    <a href="#" onclick="openInfoModal('Safety')">Safety</a>
+                    <a href="#" onclick="openInfoModal('Cancellation Options')">Cancellation Options</a>
+                </div>
+                <div class="link-group">
+                    <h4>Contact Us</h4>
+                    <a href="mailto:support@wanderlust.com"><i class="fa-solid fa-envelope" style="margin-right: 8px;"></i> support@wanderlust.com</a>
+                    <a href="tel:+18001234567"><i class="fa-solid fa-phone" style="margin-right: 8px;"></i> +1 (800) 123-4567</a>
+                    <a href="#"><i class="fa-solid fa-location-dot" style="margin-right: 8px;"></i> 123 Travel Ave, NY 10001</a>
                 </div>
             </div>
         </div>

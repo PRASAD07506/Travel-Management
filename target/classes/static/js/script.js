@@ -588,3 +588,33 @@ function generateAITrip() {
         `;
     }, 2500);
 }
+
+// ==== GENERIC INFO MODAL ====
+const infoModal = document.getElementById('modal-info');
+const infoTitle = document.getElementById('info-title');
+const infoContent = document.getElementById('info-content');
+
+const infoData = {
+    'About Us': 'Wanderlust is a premier travel booking platform dedicated to providing extraordinary and memorable travel experiences. Founded in 2026, we connect travelers with luxurious stays and thrilling adventures.',
+    'Careers': 'We are always looking for passionate individuals to join our team! Please check back later for open positions or send your resume to careers@wanderlust.com.',
+    'Press': 'For all press and media inquiries, please contact our PR team at press@wanderlust.com. We love sharing our story and travel insights.',
+    'Help Center': 'Need assistance? Our Help Center is available 24/7. Reach out to our support team at support@wanderlust.com or call +1 (800) 123-4567 for immediate help.',
+    'Safety': 'Your safety is our top priority. All our partners and guides are thoroughly vetted. We provide 24/7 emergency support and comprehensive travel insurance options.',
+    'Cancellation Options': 'We offer flexible cancellation policies. Most bookings can be canceled up to 48 hours before the trip for a full refund. Please review specific booking terms at checkout.'
+};
+
+function openInfoModal(title) {
+    if(infoTitle) infoTitle.innerText = title;
+    if(infoContent) infoContent.innerHTML = `<p>${infoData[title] || 'Information coming soon.'}</p>`;
+    if(infoModal) infoModal.classList.add('active');
+}
+
+function closeInfoModal() {
+    if(infoModal) infoModal.classList.remove('active');
+}
+
+if(infoModal) {
+    infoModal.addEventListener('click', (e) => {
+        if (e.target === infoModal) closeInfoModal();
+    });
+}
